@@ -1,5 +1,5 @@
 import { Router } from "express";
-import { createPost, getAllPosts } from "./postControllers.js"
+import { createPost, getAllPosts, getAllPublishedPosts, editPost } from "./postControllers.js"
 const postRoutes = Router();
 
 
@@ -7,16 +7,17 @@ const postRoutes = Router();
 postRoutes.post("/", createPost)
 
 // Get all posts
-postRoutes.get("/", getAllPosts)
+postRoutes.get("/all", getAllPosts)
+// add a security layer to show only posts by the author
 
 // Get all PUBLISHED posts
-
+postRoutes.get("/published", getAllPublishedPosts)
 
 // Find a post
 // postRoutes.get("/:id", getpostById)
 
 // Edit a post
-// postRoutes.put("/:id", editpost);
+postRoutes.put("/:id", editPost);
 
 // Delete a post
 // userRoutes.delete("/:id", deleteUser)
