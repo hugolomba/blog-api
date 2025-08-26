@@ -77,13 +77,50 @@ export async function editPost(req, res, next) {
     const { title, content, coverImage, published } = req.body;
 
     try {
-        const updatedPost = await prisma.post.update({
-            where: { id: Number(id) },
-            data: { title, content, coverImage, published }
+
+        const existingPost = await prisma.post.findUnique({
+            where: { id: Number(id) }
         });
 
-        res.status(200).json(response(true, updatedPost, "Post updated", null));
+        const dataToUpdate = {};
+        const fields = { title, content, coverImage, published };
+
+        for (const key in fields) {
+            if (fields[key] !== undefined && fields[key] !== existingPost[key]) {
+                dataToUpdate[key] = fields[key];
+            }
+        }
+
+        if (Object.keys(dataToUpdate).length === 0) {
+            return res.status(200).json(response(true, {}, "No fields were updated", null));
+        }
+
+        const updatedPost = await prisma.post.update({
+            where: { id: Number(id) },
+            data:   dataToUpdate
+        });
+
+        const updatedFieldsNames = Object.keys(dataToUpdate).join(", ");
+
+        res.status(200).json(response(true, updatedPost, `Post updated successfully: ${updatedFieldsNames}`, null));
     } catch (error) {
         next(error);
+    }
+}
+
+// Delete a Post
+export async function deletePost(req, res, next) {
+    const {id } = req.params
+    try {
+
+     const deletedPost = await prisma.post.delete({
+        where: { id: Number(id) }
+     })   
+
+     res.status(200).json(response(true, deletedPost, `Post ${deletedPost.title} deleted`, null))
+
+        
+    } catch (error) {
+        next(error)
     }
 }

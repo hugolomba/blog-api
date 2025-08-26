@@ -8,7 +8,7 @@ const response = (success, data, message, error) => {
         error
     };
 }
-
+// Create a user
 export async function createUser (req, res, next) {
     const { name, username, email, password, bio, avatarImage } = req.body
 
@@ -22,6 +22,7 @@ export async function createUser (req, res, next) {
     }
 }
 
+// Get all users
 export async function getAllUsers(req, res, next) {
 
     try {
@@ -44,6 +45,7 @@ export async function getAllUsers(req, res, next) {
     }
 }
 
+// Get a User by ID
 export async function getUserById(req, res, next) {
     const { id } = req.params
 
@@ -62,6 +64,7 @@ export async function getUserById(req, res, next) {
     }
 }
 
+// Edit a User
 export async function editUser(req, res, next) {
     const { id } = req.params;
     const { name, username, email, password, bio, avatarImage } = req.body;
@@ -72,14 +75,7 @@ export async function editUser(req, res, next) {
             where: { id: Number(id) }
         });
 
-        if (!existingUser) {
-            return res.status(404).json({
-                success: false,
-                data: null,
-                message: "User not found",
-                error: { code: "NOT_FOUND" }
-            });
-        }
+
 
 
         const dataToUpdate = {};
@@ -111,6 +107,7 @@ export async function editUser(req, res, next) {
     }
 }
 
+// Delete a User
 export async function deleteUser(req, res, next) {
     const {id } = req.params
     try {
