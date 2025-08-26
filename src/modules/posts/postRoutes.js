@@ -1,5 +1,5 @@
 import { Router } from "express";
-import { createPost, getAllPosts, getAllPublishedPosts, editPost, deletePost } from "./postControllers.js"
+import { createPost, getAllPosts, getAllPublishedPosts, editPost, deletePost, getPostById } from "./postControllers.js"
 const postRoutes = Router();
 
 
@@ -14,7 +14,7 @@ postRoutes.get("/all", getAllPosts)
 postRoutes.get("/published", getAllPublishedPosts)
 
 // Find a post
-// postRoutes.get("/:id", getpostById)
+postRoutes.get("/:id", getPostById)
 
 // Edit a post
 postRoutes.put("/:id", editPost);

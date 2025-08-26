@@ -71,6 +71,30 @@ export async function getAllPublishedPosts(req, res, next) {
     
 }
 
+// Find a Post by id
+export async function getPostById(req, res, next) {
+    const { id } = req.params
+
+    try {
+        const post = await prisma.post.findUnique({
+            where: { id: Number(id) },
+            include: {
+                author: true,
+                comments: true,
+                likes: true,
+                categories: true,
+                savedBy: true
+            }
+        })
+
+        if (!post) return next({ status: 404, message: "Post not found", code: "NOT_FOUND" })
+
+        res.status(200).json(response(true, post, "Post fetched successfully", null))
+    } catch (error) {
+        next(error)
+    }
+}
+
 // Edit a Post
 export async function editPost(req, res, next) {
     const { id } = req.params;
