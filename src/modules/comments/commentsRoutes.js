@@ -1,5 +1,5 @@
 import { Router } from "express";
-import { createComment, getAllComments, getCommentById, getCommentsByAuthor, editComment, deleteComment } from "./commentsControllers.js"
+import { createComment, getAllComments, getCommentById, getCommentsByAuthor, editComment, deleteComment, likeComment } from "./commentsControllers.js"
 const commentRoutes = Router();
 
 
@@ -21,5 +21,8 @@ commentRoutes.put("/:id", editComment);
 
 // Delete a comment
 commentRoutes.delete("/:id", deleteComment);
+
+// Like a comment
+commentRoutes.post("/:id/like", likeComment);
 
 export default commentRoutes;

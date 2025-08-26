@@ -1,5 +1,5 @@
 import { Router } from "express";
-import { createPost, getAllPosts, getAllPublishedPosts, editPost, deletePost, getPostById } from "./postControllers.js"
+import { createPost, getAllPosts, getAllPublishedPosts, editPost, deletePost, getPostById, likePost } from "./postControllers.js"
 const postRoutes = Router();
 
 
@@ -21,5 +21,8 @@ postRoutes.put("/:id", editPost);
 
 // Delete a post
 postRoutes.delete("/:id", deletePost)
+
+// Like a post
+postRoutes.post("/:id/like", likePost);
 
 export default postRoutes;

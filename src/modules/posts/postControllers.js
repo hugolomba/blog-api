@@ -163,3 +163,28 @@ export async function deletePost(req, res, next) {
         next(error)
     }
 }
+
+// Like a Post
+export async function likePost(req, res, next) {
+    const { id: postId } = req.params
+    const { userId } = req.body
+
+    try {
+        const post = await prisma.post.findUnique({
+            where: { id: Number(postId) }
+        })
+
+        if (!post) return next({ status: 404, message: "Post not found", code: "NOT_FOUND" })
+
+        const like = await prisma.like.create({
+            data: {
+                userId: Number(userId),
+                postId: Number(postId)
+            }
+        })
+
+        res.status(200).json(response(true, like, "Post liked successfully", null))
+    } catch (error) {
+        next(error)
+    }
+}
