@@ -25,7 +25,16 @@ export async function createUser (req, res, next) {
 export async function getAllUsers(req, res, next) {
 
     try {
-        const users = await prisma.user.findMany()
+        const users = await prisma.user.findMany({
+            include: {
+                posts: true,
+                comments: true,
+                likes: true,
+                followers: true,
+                following: true,
+                savedPosts: true
+            }
+    })
         if (users.length === 0) return next({ status: 404, message: "No users found", code: "NOT_FOUND" })
 
         res.status(200).json(response(true, users, "Users fetched successfully", null));
