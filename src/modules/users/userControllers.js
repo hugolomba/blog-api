@@ -1,4 +1,5 @@
 import prisma from "../../config/prisma.js";
+import cloudinary from "../../config/cloudinary.js"
 
 const response = (success, data, message, error) => {
     return {
@@ -10,9 +11,19 @@ const response = (success, data, message, error) => {
 }
 // Create a user
 export async function createUser (req, res, next) {
-    const { name, username, email, password, bio, avatarImage } = req.body
+    let { name, username, email, password, bio, avatarImage } = req.body
 
     try {
+        // let avatarUrl 
+
+        if (req.file) {
+            const uploadResult = await cloudinary.uploader.upload(req.file.path, {
+                folder: "users/avatar",
+                transformation: [{ width: 800, height: 600, crop: "limit" }]
+            });
+            avatarImage = uploadResult.secure_url
+        }
+
         const user = await prisma.user.create({
         data: {name, username, email, password, bio, avatarImage}
     })
@@ -75,7 +86,7 @@ export async function getUserById(req, res, next) {
 // Edit a User
 export async function editUser(req, res, next) {
     const { id } = req.params;
-    const { name, username, email, password, bio, avatarImage } = req.body;
+    let { name, username, email, password, bio, avatarImage } = req.body;
 
     try {
     
@@ -85,9 +96,20 @@ export async function editUser(req, res, next) {
 
 
 
-
+         if (req.file) {
+            const uploadResult = await cloudinary.uploader.upload(req.file.path, {
+                folder: "users/avatar",
+                transformation: [{ width: 800, height: 600, crop: "limit" }]
+            });
+            avatarImage = uploadResult.secure_url
+        }
+        
         const dataToUpdate = {};
-        const fields = { name, username, email, password, bio, avatarImage };
+        let fields = { name, username, email, password, bio, avatarImage };
+
+        //  let avatarUrl 
+
+       
 
         for (const key in fields) {
             if (fields[key] !== undefined && fields[key] !== existingUser[key]) {
@@ -99,6 +121,8 @@ export async function editUser(req, res, next) {
             return res.status(200).json(response(true, {}, "No fields were updated", null));
             
         }   
+
+        
 
         // update the user
         const updatedUser = await prisma.user.update({
