@@ -33,7 +33,12 @@ export async function getAllPosts(req, res, next) {
         const allPosts = await prisma.post.findMany({
                 include: {
                 author: true,
-                comments: true,
+                comments: {
+                    include: {
+                        author: true,
+                        likes: true
+                    }
+                },
                 likes: true,
                 categories: true,
                 savedBy: true
@@ -57,7 +62,12 @@ export async function getAllPublishedPosts(req, res, next) {
                 },
                 include: {
                 author: true,
-                comments: true,
+                comments: {
+                    include: {
+                        author: true,
+                        likes: true
+                    }
+                },
                 likes: true,
                 categories: true,
                 savedBy: true
@@ -80,7 +90,12 @@ export async function getPostById(req, res, next) {
             where: { id: Number(id) },
             include: {
                 author: true,
-                comments: true,
+                comments: {
+                    include: {
+                        author: true,
+                        likes: true
+                    }
+                },
                 likes: true,
                 categories: true,
                 savedBy: true

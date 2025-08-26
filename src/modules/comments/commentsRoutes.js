@@ -1,5 +1,5 @@
 import { Router } from "express";
-import { createComment } from "./commentsControllers.js"
+import { createComment, getAllComments, getCommentById, getCommentsByAuthor, editComment, deleteComment } from "./commentsControllers.js"
 const commentRoutes = Router();
 
 
@@ -7,18 +7,19 @@ const commentRoutes = Router();
 commentRoutes.post("/", createComment)
 
 // Get all comments
-// commentRoutes.get("/", getAllComments)
+commentRoutes.get("/", getAllComments)
 
-// Get all PUBLISHED comments
-// commentRoutes.get("/published", getPublishedComments)
 
-// Find a comment
-// commentRoutes.get("/:id", getCommentById)
+// Find a comment by Id
+commentRoutes.get("/:id", getCommentById)
+
+// Find a comment by author
+commentRoutes.get("/author/:authorId", getCommentsByAuthor)
 
 // Edit a comment
-// commentRoutes.put("/:id", editComment);
+commentRoutes.put("/:id", editComment);
 
 // Delete a comment
-// commentRoutes.delete("/:id", deleteComment);
+commentRoutes.delete("/:id", deleteComment);
 
 export default commentRoutes;
