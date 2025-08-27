@@ -38,6 +38,33 @@ export async function getAllUsers(req, res, next) {
     }
 }
 
+export async function getCurrentUser(req, res, next) {
+    try {
+        const userId = req.user.userId;
+          const user = await prisma.user.findUnique({
+            where: { id: userId },
+            select: {
+                id: true,
+                name: true,
+                username: true,
+                email: true,
+                bio: true,
+                avatarImage: true,
+                posts: true,
+                comments: true,
+                likes: true,
+                followers: true,
+                following: true,
+                savedPosts: true
+                }
+    });
+
+    res.status(200).json(user);
+    } catch (error) {
+        next(error);
+    }
+}
+
 // Get a User by ID
 export async function getUserById(req, res, next) {
     const { id } = req.params
