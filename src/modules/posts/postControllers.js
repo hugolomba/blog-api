@@ -223,3 +223,34 @@ export async function likePost(req, res, next) {
         next(error)
     }
 }
+
+export async function searchPosts(req, res, next) {
+    const { q } = req.query;
+
+    try {
+        const posts = await prisma.post.findMany({
+            where: {
+                OR: [
+                    { title: { contains: q, mode: "insensitive" } },
+                    { content: { contains: q, mode: "insensitive" } }
+                ]
+            },
+            include: {
+                author: true,
+                comments: {
+                    include: {
+                        author: true,
+                        likes: true
+                    }
+                },
+                likes: true,
+                categories: true,
+                savedBy: true
+            }
+        });
+
+        res.status(200).json(response(true, posts, "Posts fetched successfully", null));
+    } catch (error) {
+        next(error);
+    }
+}

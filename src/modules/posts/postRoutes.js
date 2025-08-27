@@ -1,5 +1,5 @@
 import { Router } from "express";
-import { createPost, getAllPosts, getAllPublishedPosts, editPost, deletePost, getPostById, likePost, getAllCurrentUserPosts } from "./postControllers.js"
+import { createPost, getAllPosts, getAllPublishedPosts, editPost, deletePost, getPostById, likePost, getAllCurrentUserPosts, searchPosts } from "./postControllers.js"
 import { validateAndSanitize } from "../../middlewares/validateAndSanitize.js";
 import { createPostSchema, editPostSchema } from "../../config/joiSchemas.js";
 import { authMiddleware } from "../../middlewares/authMiddleware.js";
@@ -28,6 +28,9 @@ postRoutes.delete("/delete", authMiddleware, deletePost)
 
 // Like a post
 postRoutes.post("/:id/like", authMiddleware, likePost);
+
+// Search posts
+postRoutes.get("/search", searchPosts);
 
 // Find a post
 postRoutes.get("/:id", authMiddleware, getPostById)
