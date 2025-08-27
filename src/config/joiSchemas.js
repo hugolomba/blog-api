@@ -40,3 +40,9 @@ export const editPostSchema = Joi.object({
   coverImage: Joi.string().uri().optional(),
   authorId: Joi.number().optional()
 });
+
+// Schema Joi to update Password
+export const updatePasswordSchema = Joi.object({
+  currentPassword: Joi.string().min(6).required(),
+  newPassword: Joi.string().min(6).required()
+});

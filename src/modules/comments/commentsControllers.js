@@ -11,7 +11,8 @@ const response = (success, data, message, error) => {
 
 // Create a comment
 export async function createComment(req, res, next) {  
-    const { content, postId, authorId } = req.body
+    const authorId = req.user.userId
+    const { content, postId } = req.body
 
     try {
         const newComment = await prisma.comment.create({

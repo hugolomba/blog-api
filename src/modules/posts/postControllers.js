@@ -85,13 +85,41 @@ export async function getAllPublishedPosts(req, res, next) {
     
 }
 
+//Get all Current User Posts
+
+export async function getAllCurrentUserPosts(req, res, next) {
+    try {
+        const { userId } = req.user;
+        const userPosts = await prisma.post.findMany({
+                include: {
+                author: true,
+                comments: {
+                    include: {
+                        author: true,
+                        likes: true
+                    }
+                },
+                likes: true,
+                categories: true,
+                savedBy: true
+            }, orderBy: {
+                id: "asc"
+            }
+        })
+    
+        res.status(200).json(response(true, userPosts, "User's Posts", null))
+    } catch (error) {
+        next(error)
+    }
+}
+
 // Find a Post by id
 export async function getPostById(req, res, next) {
     const { id } = req.params
 
     try {
         const post = await prisma.post.findUnique({
-            where: { id: Number(id) },
+            where: { id: Number(id), published: true },
             include: {
                 author: true,
                 comments: {
@@ -118,7 +146,7 @@ export async function getPostById(req, res, next) {
 
 // Edit a Post
 export async function editPost(req, res, next) {
-    const { id } = req.params;
+    const id  = req.user.userId;
     const { title, content, coverImage, published } = req.body;
 
     try {
@@ -155,7 +183,7 @@ export async function editPost(req, res, next) {
 
 // Delete a Post
 export async function deletePost(req, res, next) {
-    const {id } = req.params
+    const id = req.user.userId;
     try {
 
      const deletedPost = await prisma.post.delete({
@@ -173,7 +201,8 @@ export async function deletePost(req, res, next) {
 // Like a Post
 export async function likePost(req, res, next) {
     const { id: postId } = req.params
-    const { userId } = req.body
+    // console.log("req.user:", req.user);
+    const { userId } = req.user
 
     try {
         const post = await prisma.post.findUnique({

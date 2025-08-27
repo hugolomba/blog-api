@@ -1,5 +1,6 @@
 import prisma from "../../config/prisma.js";
 import cloudinary from "../../config/cloudinary.js"
+import bcrypt from "bcryptjs";
 
 const response = (success, data, message, error) => {
     return {
@@ -41,6 +42,7 @@ export async function getAllUsers(req, res, next) {
 export async function getCurrentUser(req, res, next) {
     try {
         const userId = req.user.userId;
+        console.log(">>>>>>>>", req.user);
           const user = await prisma.user.findUnique({
             where: { id: userId },
             select: {
@@ -65,6 +67,7 @@ export async function getCurrentUser(req, res, next) {
     }
 }
 
+
 // Get a User by ID
 export async function getUserById(req, res, next) {
     const { id } = req.params
@@ -76,7 +79,9 @@ export async function getUserById(req, res, next) {
             name: true,
             bio: true,
             avatarImage: true,
-             posts: true,
+             posts: {
+            where: { published: true }
+        },
             comments: true,
             likes: true,
             followers: true,
@@ -97,8 +102,10 @@ export async function getUserById(req, res, next) {
 
 // Edit a User (user cannot change the password here)
 export async function editUser(req, res, next) {
-    const { id } = req.params;
+    const id = req.user.userId;
     let { name, username, email, bio, avatarImage } = req.body;
+
+    console.log("before>>>>>>", id);
 
     try {
     
@@ -151,9 +158,42 @@ export async function editUser(req, res, next) {
     }
 }
 
+// Change password
+
+export async function changePassword(req, res, next) {
+    const { currentPassword, newPassword } = req.body
+    const userId = req.user.userId;
+
+    console.log("USER ID >>>>>>>>", userId);
+
+try {
+        const currentUser = await prisma.user.findUnique({
+        where: { id: userId }
+         })
+        const isCurrentPasswordValid = await bcrypt.compare(currentPassword, currentUser.password);
+        if (isCurrentPasswordValid) {
+            const hashedNewPassword = await bcrypt.hash(newPassword, 10);
+            await prisma.user.update({
+                where: { id: userId },
+                data: { password: hashedNewPassword }
+            })
+        }
+        
+        res.status(200).json(response(true, null, "Password changed successfully", null))
+    
+} catch (error) {
+    next(error)
+}
+
+
+
+
+
+}
+
 // Delete a User
 export async function deleteUser(req, res, next) {
-    const {id } = req.params
+    const id  = req.user.userId;
     try {
 
      const deletedUser = await prisma.user.delete({

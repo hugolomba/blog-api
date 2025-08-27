@@ -4,6 +4,7 @@ import jwt from "jsonwebtoken";
 import { jwtConfig } from "../../config/jwt.js";
 import cloudinary from "../../config/cloudinary.js";
 
+
 const response = (success, data, message, error) => {
     return {
         success,
@@ -74,7 +75,7 @@ export async function login (req, res, next) {
 
     // Generate JWT
     const token = jwt.sign(
-      { userId: user.id, username: user.username },
+      { userId: user.id, username: user.username, isAdmin: user.isAdmin },
       jwtConfig.secret,
       { expiresIn: jwtConfig.expiresIn }
     );
