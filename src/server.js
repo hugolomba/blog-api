@@ -3,6 +3,7 @@ import express from 'express';
 import errorHandler from "./middlewares/errorHandler.js";
 import userRoutes from "./modules/users/userRoutes.js";
 import postRoutes from "./modules/posts/postRoutes.js";
+import authRouter from "./modules/auth/authRoutes.js";
 import commentRoutes from "./modules/comments/commentsRoutes.js";
 
 const app = express();
@@ -14,6 +15,7 @@ app.use(express.urlencoded({ extended: true }));
 // Routes
 
 app.use('/users', userRoutes);
+app.use('/auth', authRouter);
 app.use('/posts', postRoutes);
 app.use('/comments', commentRoutes);
 

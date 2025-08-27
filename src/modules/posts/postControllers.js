@@ -42,6 +42,8 @@ export async function getAllPosts(req, res, next) {
                 likes: true,
                 categories: true,
                 savedBy: true
+            }, orderBy: {
+                id: "asc"
             }
         })
 
@@ -71,6 +73,8 @@ export async function getAllPublishedPosts(req, res, next) {
                 likes: true,
                 categories: true,
                 savedBy: true
+            },  orderBy: {
+                id: "asc"
             }
         })
 
@@ -99,6 +103,8 @@ export async function getPostById(req, res, next) {
                 likes: true,
                 categories: true,
                 savedBy: true
+            },  orderBy: {
+                id: "asc"
             }
         })
 

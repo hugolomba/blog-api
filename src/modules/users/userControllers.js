@@ -10,28 +10,7 @@ const response = (success, data, message, error) => {
     };
 }
 // Create a user
-export async function createUser (req, res, next) {
-    let { name, username, email, password, bio, avatarImage } = req.body
 
-    try {
-        // let avatarUrl 
-
-        if (req.file) {
-            const uploadResult = await cloudinary.uploader.upload(req.file.path, {
-                folder: "users/avatar",
-                transformation: [{ width: 800, height: 600, crop: "limit" }]
-            });
-            avatarImage = uploadResult.secure_url
-        }
-
-        const user = await prisma.user.create({
-        data: {name, username, email, password, bio, avatarImage}
-    })
-    res.status(201).json(user) 
-    } catch (error) {
-        next(error)
-    }
-}
 
 // Get all users
 export async function getAllUsers(req, res, next) {
@@ -45,8 +24,11 @@ export async function getAllUsers(req, res, next) {
                 followers: true,
                 following: true,
                 savedPosts: true
+            },
+            orderBy: {
+                id: "asc"
             }
-    })
+        })
         if (users.length === 0) return next({ status: 404, message: "No users found", code: "NOT_FOUND" })
 
         res.status(200).json(response(true, users, "Users fetched successfully", null));
@@ -70,6 +52,9 @@ export async function getUserById(req, res, next) {
                 followers: true,
                 following: true,
                 savedPosts: true
+            },
+             orderBy: {
+                id: "asc"
             }
         })
 
@@ -83,10 +68,10 @@ export async function getUserById(req, res, next) {
     }
 }
 
-// Edit a User
+// Edit a User (user cannot change the password here)
 export async function editUser(req, res, next) {
     const { id } = req.params;
-    let { name, username, email, password, bio, avatarImage } = req.body;
+    let { name, username, email, bio, avatarImage } = req.body;
 
     try {
     
@@ -105,7 +90,7 @@ export async function editUser(req, res, next) {
         }
         
         const dataToUpdate = {};
-        let fields = { name, username, email, password, bio, avatarImage };
+        let fields = { name, username, email, bio, avatarImage };
 
         //  let avatarUrl 
 

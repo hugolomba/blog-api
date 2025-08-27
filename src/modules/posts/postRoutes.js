@@ -1,10 +1,13 @@
 import { Router } from "express";
 import { createPost, getAllPosts, getAllPublishedPosts, editPost, deletePost, getPostById, likePost } from "./postControllers.js"
+import { validateAndSanitize } from "../../middlewares/validateAndSanitize.js";
+import { createPostSchema, editPostSchema } from "../../config/joiSchemas.js";
+
 const postRoutes = Router();
 
 
 // Create a post
-postRoutes.post("/", createPost)
+postRoutes.post("/", validateAndSanitize(createPostSchema), createPost)
 
 // Get all posts
 postRoutes.get("/all", getAllPosts)
@@ -17,7 +20,7 @@ postRoutes.get("/published", getAllPublishedPosts)
 postRoutes.get("/:id", getPostById)
 
 // Edit a post
-postRoutes.put("/:id", editPost);
+postRoutes.put("/:id", validateAndSanitize(editPostSchema), editPost);
 
 // Delete a post
 postRoutes.delete("/:id", deletePost)
