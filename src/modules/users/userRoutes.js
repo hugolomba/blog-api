@@ -16,14 +16,13 @@ const userRoutes = Router();
 userRoutes.get("/", authMiddleware, getAllUsers)
 
 
-
-
+// Get the current user
 userRoutes.get("/me", authMiddleware, getCurrentUser);
 
 // Find a user (public profile)
 userRoutes.get("/:id", getUserById)
 
-// Edit a user
+// Edit user
 userRoutes.put("/:id", upload.single("avatarImage"), validateAndSanitize(updateProfileSchema), authMiddleware, editUser);
 
 // Delete a user
