@@ -4,6 +4,7 @@ import upload from "../../config/multer.js";
 import { validateAndSanitize } from "../../middlewares/validateAndSanitize.js";
 import { updateProfileSchema } from "../../config/joiSchemas.js";
 import { authMiddleware } from "../../middlewares/authMiddleware.js";
+import { isAdmin } from "../../middlewares/isAdmin.js"
 
 
 const userRoutes = Router();
@@ -13,7 +14,7 @@ const userRoutes = Router();
 // userRoutes.post("/", upload.single("avatarImage"), createUser)
 
 // Get all Users (only for admins)
-userRoutes.get("/", authMiddleware, getAllUsers)
+userRoutes.get("/", authMiddleware, isAdmin, getAllUsers)
 
 
 // Get the current user
