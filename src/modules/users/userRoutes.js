@@ -3,6 +3,8 @@ import { deleteUser, editUser, getAllUsers, getUserById } from "./userController
 import upload from "../../config/multer.js";
 import { validateAndSanitize } from "../../middlewares/validateAndSanitize.js";
 import { updateProfileSchema } from "../../config/joiSchemas.js";
+import { authMiddleware } from "../../middlewares/authMiddleware.js";
+
 
 const userRoutes = Router();
 
@@ -11,15 +13,16 @@ const userRoutes = Router();
 // userRoutes.post("/", upload.single("avatarImage"), createUser)
 
 // Get all Users
-userRoutes.get("/", getAllUsers)
+userRoutes.get("/", authMiddleware, getAllUsers)
 
-// Find a user
+
+// Find a user (public profile)
 userRoutes.get("/:id", getUserById)
 
 // Edit a user
-userRoutes.put("/:id", upload.single("avatarImage"), validateAndSanitize(updateProfileSchema), editUser);
+userRoutes.put("/:id", upload.single("avatarImage"), validateAndSanitize(updateProfileSchema), authMiddleware, editUser);
 
 // Delete a user
-userRoutes.delete("/:id", deleteUser)
+userRoutes.delete("/:id", authMiddleware, deleteUser)
 
 export default userRoutes;

@@ -61,16 +61,25 @@ export async function login (req, res, next) {
         const user = await prisma.user.findUnique({
             where: { username }
         });
-        console.log(user);
+        
+         if (!user) {
+      return res.status(401).json({ success: false, message: "Invalid username or password" });
+    }
 
-        // if (user && await bcrypt.compare(password, user.password)) {
-        //     // Generate JWT
-        //     const token = jwt.sign({ userId: user.id }, jwtConfig.secret, { expiresIn: jwtConfig.expiresIn });
+     const isPasswordValid = await bcrypt.compare(password, user.password);
+   
+    if (!isPasswordValid) {
+      return res.status(401).json({ success: false, message: "Invalid username or password" });
+    }
 
-        //     res.status(200).json(response(true, { token, user }, "Login successful", null));
-        // } else {
-        //     res.status(401).json({ message: "Invalid username or password" });
+    // Generate JWT
+    const token = jwt.sign(
+      { userId: user.id, username: user.username },
+      jwtConfig.secret,
+      { expiresIn: jwtConfig.expiresIn }
+    );
 
+    res.status(200).json(response(true, { user, token }, "Login successful", null))
    
     } catch (error) {
         next(error)
