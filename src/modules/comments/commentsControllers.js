@@ -19,7 +19,7 @@ export async function createComment(req, res, next) {
             data: { content, postId, authorId }
         })
 
-        res.status(200).json(response(true, newComment, "New comment created", null))
+        res.status(200).json(newComment)
 
 
     } catch (error) {
@@ -39,7 +39,7 @@ export async function getAllComments(req, res, next) {
             }
         })
 
-        res.status(200).json(response(true, allComments, "All Comments", null))
+        res.status(200).json(allComments)
     } catch (error) {
         next(error)
     }
@@ -61,7 +61,7 @@ export async function getCommentById(req, res, next) {
 
         if (!comment) return next({ status: 404, message: "Comment not found", code: "NOT_FOUND" })
 
-        res.status(200).json(response(true, comment, "Comment fetched successfully", null))
+        res.status(200).json(comment)
     } catch (error) {
         next(error)
     }
@@ -83,7 +83,7 @@ export async function getCommentsByAuthor(req, res, next) {
 
         if (!comments) return next({ status: 404, message: "Comments not found", code: "NOT_FOUND" })
 
-        res.status(200).json(response(true, comments, "Comments fetched successfully", null))
+        res.status(200).json(comments)
     } catch (error) {
         next(error)
     }
@@ -100,7 +100,7 @@ export async function editComment(req, res, next) {
             data: { content }
         })
 
-        res.status(200).json(response(true, updatedComment, "Comment updated", null))
+        res.status(200).json(updatedComment)
     } catch (error) {
         next(error)
     }
@@ -115,7 +115,7 @@ export async function deleteComment(req, res, next) {
             where: { id: Number(id) }
         })
 
-        res.status(200).json(response(true, deletedComment, `Comment deleted`, null))
+        res.status(200).json(deletedComment)
     } catch (error) {
         next(error)
     }
@@ -140,7 +140,7 @@ export async function likeComment(req, res, next) {
             }
         })
 
-        res.status(200).json(response(true, like, "Comment liked successfully", null))
+        res.status(200).json("Comment liked")
     } catch (error) {
         next(error)
     }

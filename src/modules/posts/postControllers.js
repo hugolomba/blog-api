@@ -17,7 +17,7 @@ export async function createPost(req, res, next) {
             data: {title, content, coverImage, authorId}
         })
 
-        res.status(200).json(response(true, newPost, "New post created", null))
+        res.status(200).json("New post created")
 
 
     } catch (error) {
@@ -47,7 +47,7 @@ export async function getAllPosts(req, res, next) {
             }
         })
 
-        res.status(200).json(response(true, allPosts, "All Posts", null))
+        res.status(200).json(allPosts)
     } catch (error) {
         next(error)
     }
@@ -78,7 +78,7 @@ export async function getAllPublishedPosts(req, res, next) {
             }
         })
 
-        res.status(200).json(response(true, allPosts, "All Posts", null))
+        res.status(200).json(allPosts)
     } catch (error) {
         next(error)
     }
@@ -107,7 +107,7 @@ export async function getAllCurrentUserPosts(req, res, next) {
             }
         })
     
-        res.status(200).json(response(true, userPosts, "User's Posts", null))
+        res.status(200).json(userPosts)
     } catch (error) {
         next(error)
     }
@@ -138,7 +138,7 @@ export async function getPostById(req, res, next) {
 
         if (!post) return next({ status: 404, message: "Post not found", code: "NOT_FOUND" })
 
-        res.status(200).json(response(true, post, "Post fetched successfully", null))
+        res.status(200).json(post)
     } catch (error) {
         next(error)
     }
@@ -175,7 +175,7 @@ export async function editPost(req, res, next) {
 
         const updatedFieldsNames = Object.keys(dataToUpdate).join(", ");
 
-        res.status(200).json(response(true, updatedPost, `Post updated successfully: ${updatedFieldsNames}`, null));
+        res.status(200).json(updatedPost);
     } catch (error) {
         next(error);
     }
@@ -190,7 +190,7 @@ export async function deletePost(req, res, next) {
         where: { id: Number(id) }
      })   
 
-     res.status(200).json(response(true, deletedPost, `Post ${deletedPost.title} deleted`, null))
+     res.status(200).json(deletedPost)
 
         
     } catch (error) {
@@ -218,7 +218,7 @@ export async function likePost(req, res, next) {
             }
         })
 
-        res.status(200).json(response(true, like, "Post liked successfully", null))
+        res.status(200).json("Post liked")
     } catch (error) {
         next(error)
     }
@@ -249,7 +249,7 @@ export async function searchPosts(req, res, next) {
             }
         });
 
-        res.status(200).json(response(true, posts, "Posts fetched successfully", null));
+        res.status(200).json(posts);
     } catch (error) {
         next(error);
     }

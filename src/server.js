@@ -5,10 +5,14 @@ import userRoutes from "./modules/users/userRoutes.js";
 import postRoutes from "./modules/posts/postRoutes.js";
 import authRouter from "./modules/auth/authRoutes.js";
 import commentRoutes from "./modules/comments/commentsRoutes.js";
+import cors from "cors";
 
 const app = express();
 const PORT = process.env.PORT || 3000;
 
+app.use(cors({
+  origin: "http://localhost:5173" // URL 
+}));
 app.use(express.json());
 app.use(express.urlencoded({ extended: true }));
 

@@ -48,7 +48,7 @@ export async function register (req, res, next) {
         const user = await prisma.user.create({
         data: {name, username, email, password: hashedPassword, bio, avatarImage}
     })
-    res.status(201).json(response(true, user, "User created successfully", null))
+    res.status(201).json(user)
     } catch (error) {
         next(error)
     }
@@ -60,7 +60,15 @@ export async function login (req, res, next) {
 
     try {
         const user = await prisma.user.findUnique({
-            where: { username }
+            where: { username }, 
+            include: {
+                posts: true,
+                comments: true,
+                likes: true,
+                followers: true,
+                following: true,
+                savedPosts: true
+            }
         });
         
          if (!user) {
@@ -80,7 +88,7 @@ export async function login (req, res, next) {
       { expiresIn: jwtConfig.expiresIn }
     );
 
-    res.status(200).json(response(true, { user, token }, "Login successful", null))
+    res.status(200).json({ user, token })
    
     } catch (error) {
         next(error)

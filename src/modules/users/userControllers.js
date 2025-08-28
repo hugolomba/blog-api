@@ -32,7 +32,7 @@ export async function getAllUsers(req, res, next) {
         })
         if (users.length === 0) return next({ status: 404, message: "No users found", code: "NOT_FOUND" })
 
-        res.status(200).json(response(true, users, "Users fetched successfully", null));
+        res.status(200).json(users);
 
     } catch (error) {
         next(error) 
@@ -94,7 +94,7 @@ export async function getUserById(req, res, next) {
       return next({ status: 404, message: "User not found", code: "NOT_FOUND" });
     }
 
-        res.status(200).json(response(true, user, "User fetched successfully", null))
+        res.status(200).json(user)
     } catch (error) {
         next(error)
     }
@@ -179,7 +179,7 @@ try {
             })
         }
         
-        res.status(200).json(response(true, null, "Password changed successfully", null))
+        res.status(200).json("Password changed successfully")
     
 } catch (error) {
     next(error)
