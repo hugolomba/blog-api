@@ -26,7 +26,6 @@ export async function createPost(req, res, next) {
 }
 
 
-// REMEMBER TO ADD SECURITY LAYER
 export async function getAllPosts(req, res, next) {
 
     try {
@@ -91,6 +90,7 @@ export async function getAllCurrentUserPosts(req, res, next) {
     try {
         const { userId } = req.user;
         const userPosts = await prisma.post.findMany({
+            where: { authorId: Number(userId) },
                 include: {
                 author: true,
                 comments: {
@@ -119,7 +119,7 @@ export async function getPostById(req, res, next) {
 
     try {
         const post = await prisma.post.findUnique({
-            where: { id: Number(id), published: true },
+            where: { id: Number(id) },
             include: {
                 author: true,
                 comments: {
@@ -131,12 +131,10 @@ export async function getPostById(req, res, next) {
                 likes: true,
                 categories: true,
                 savedBy: true
-            },  orderBy: {
-                id: "asc"
             }
         })
 
-        if (!post) return next({ status: 404, message: "Post not found", code: "NOT_FOUND" })
+        if (!post || !post.published) return next({ status: 404, message: "Post not found", code: "NOT_FOUND" })
 
         res.status(200).json(post)
     } catch (error) {
@@ -146,7 +144,7 @@ export async function getPostById(req, res, next) {
 
 // Edit a Post
 export async function editPost(req, res, next) {
-    const id  = req.user.userId;
+    const id  = req.params.id;
     const { title, content, coverImage, published } = req.body;
 
     try {
@@ -154,6 +152,10 @@ export async function editPost(req, res, next) {
         const existingPost = await prisma.post.findUnique({
             where: { id: Number(id) }
         });
+
+        if (!existingPost) {
+            return res.status(404).json(response(false, {}, "Post not found", null));
+        }
 
         const dataToUpdate = {};
         const fields = { title, content, coverImage, published };
@@ -183,7 +185,7 @@ export async function editPost(req, res, next) {
 
 // Delete a Post
 export async function deletePost(req, res, next) {
-    const id = req.user.userId;
+    const id = req.params.id;
     try {
 
      const deletedPost = await prisma.post.delete({
@@ -211,14 +213,26 @@ export async function likePost(req, res, next) {
 
         if (!post) return next({ status: 404, message: "Post not found", code: "NOT_FOUND" })
 
-        const like = await prisma.like.create({
-            data: {
+        const existingLike = await prisma.like.findFirst({
+            where: {
                 userId: Number(userId),
                 postId: Number(postId)
             }
-        })
+        });
 
-        res.status(200).json("Post liked")
+        if (existingLike) {
+            await prisma.like.delete({ where: { id: existingLike.id } });
+            return res.status(200).json({ message: "Like removed" });
+        } else {
+            // if there is no like, add
+            await prisma.like.create({
+                data: {
+                    userId: Number(userId),
+                    postId: Number(postId)
+                }
+            });
+            return res.status(200).json({ message: "Post liked" });
+        }
     } catch (error) {
         next(error)
     }
@@ -233,7 +247,8 @@ export async function searchPosts(req, res, next) {
                 OR: [
                     { title: { contains: q, mode: "insensitive" } },
                     { content: { contains: q, mode: "insensitive" } }
-                ]
+                ],
+                published: true
             },
             include: {
                 author: true,

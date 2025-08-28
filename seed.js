@@ -25,21 +25,40 @@ async function seed() {
         email: "hugo@example.com",
         password: passwordHash,
         isAdmin: true,
-        avatarImage: "https://res.cloudinary.com/demo/image/upload/w_200,h_200,c_fill/sample.jpg",
+        avatarImage: "https://images.unsplash.com/photo-1508214751196-bcfd4ca60f91?ixlib=rb-4.0.3&auto=format&fit=crop&w=200&q=80",
+        bio: "Passionate about technology and blogging."
       },
       {
         name: "Andrea",
         username: "andrea",
         email: "andrea@example.com",
         password: passwordHash,
-        avatarImage: "https://res.cloudinary.com/demo/image/upload/w_200,h_200,c_fill/face_top.jpg",
+        avatarImage: "https://images.unsplash.com/photo-1544005313-94ddf0286df2?ixlib=rb-4.0.3&auto=format&fit=crop&w=200&q=80",
+        bio: "Loves cats, coffee, and sharing moments."
       },
       {
         name: "Medusa",
         username: "medusa",
         email: "medusa@example.com",
         password: passwordHash,
-        avatarImage: "https://res.cloudinary.com/demo/image/upload/w_200,h_200,c_fill/cat.jpg",
+        avatarImage: "https://images.unsplash.com/photo-1531123897727-8f129e1688ce?ixlib=rb-4.0.3&auto=format&fit=crop&w=200&q=80",
+        bio: "Curious cat who loves naps and treats."
+      },
+      {
+        name: "Patricia",
+        username: "patricia",
+        email: "patricia@example.com",
+        password: passwordHash,
+        avatarImage: "https://images.unsplash.com/photo-1524504388940-b1c1722653e1?ixlib=rb-4.0.3&auto=format&fit=crop&w=200&q=80",
+        bio: "Nature lover and coffee enthusiast."
+      },
+      {
+        name: "Rafaela",
+        username: "rafaela",
+        email: "rafaela@example.com",
+        password: passwordHash,
+        avatarImage: "https://images.unsplash.com/photo-1529626455594-4ff0802cfb7e?ixlib=rb-4.0.3&auto=format&fit=crop&w=200&q=80",
+        bio: "Bookworm and aspiring writer."
       },
     ];
 
@@ -49,7 +68,7 @@ async function seed() {
       createdUsers.push(user);
     }
 
-    const [hugo, andrea, medusa] = createdUsers;
+    const [hugo, andrea, medusa, patricia, rafaela] = createdUsers;
 
     // Posts com coverImage já pronto
     const postsContent = {
@@ -57,51 +76,85 @@ async function seed() {
         {
           title: "Dinner delight",
           content: "Today Andrea cooked dinner and it was delicious!",
-          coverImage: "https://res.cloudinary.com/demo/image/upload/w_600,h_400,c_fill/dinner.jpg",
+          coverImage: "https://images.unsplash.com/photo-1504674900247-0877df9cc836?ixlib=rb-4.0.3&auto=format&fit=crop&w=600&q=80",
         },
         {
           title: "Lazy Medusa",
           content: "Medusa is sleeping on the sofa again, so lazy!",
-          coverImage: "https://res.cloudinary.com/demo/image/upload/w_600,h_400,c_fill/cat_sleep.jpg",
+          coverImage: "https://images.unsplash.com/photo-1519710164239-da123dc03ef4?ixlib=rb-4.0.3&auto=format&fit=crop&w=600&q=80",
         },
         {
           title: "Family park walk",
           content: "Family walk in the park, perfect day.",
-          coverImage: "https://res.cloudinary.com/demo/image/upload/w_600,h_400,c_fill/park.jpg",
+          coverImage: "https://images.unsplash.com/photo-1506744038136-46273834b3fb?ixlib=rb-4.0.3&auto=format&fit=crop&w=600&q=80",
         },
       ],
       andrea: [
         {
           title: "Special breakfast",
           content: "Hugo made a special breakfast today, so sweet!",
-          coverImage: "https://res.cloudinary.com/demo/image/upload/w_600,h_400,c_fill/breakfast.jpg",
+          coverImage: "https://images.unsplash.com/photo-1490645935967-10de6ba17061?ixlib=rb-4.0.3&auto=format&fit=crop&w=600&q=80",
         },
         {
           title: "Cat mischief",
           content: "Medusa scratched my rug… but who can resist that look?",
-          coverImage: "https://res.cloudinary.com/demo/image/upload/w_600,h_400,c_fill/cat_play.jpg",
+          coverImage: "https://images.unsplash.com/photo-1518791841217-8f162f1e1131?ixlib=rb-4.0.3&auto=format&fit=crop&w=600&q=80",
         },
         {
           title: "Movie night",
           content: "Movie night with the family, precious moments.",
-          coverImage: "https://res.cloudinary.com/demo/image/upload/w_600,h_400,c_fill/movie.jpg",
+          coverImage: "https://images.unsplash.com/photo-1504384308090-c894fdcc538d?ixlib=rb-4.0.3&auto=format&fit=crop&w=600&q=80",
         },
       ],
       medusa: [
         {
           title: "Purring time",
           content: "Purring on Andrea's lap, I love pets!",
-          coverImage: "https://res.cloudinary.com/demo/image/upload/w_600,h_400,c_fill/purring.jpg",
+          coverImage: "https://images.unsplash.com/photo-1517423440428-a5a00ad493e8?ixlib=rb-4.0.3&auto=format&fit=crop&w=600&q=80",
         },
         {
           title: "Waiting for treats",
           content: "Hugo forgot to give me treats… I will wait patiently.",
-          coverImage: "https://res.cloudinary.com/demo/image/upload/w_600,h_400,c_fill/treats.jpg",
+          coverImage: "https://images.unsplash.com/photo-1525253086316-d0c936c814f8?ixlib=rb-4.0.3&auto=format&fit=crop&w=600&q=80",
         },
         {
           title: "Sun nap",
           content: "Sleeping in the sun, life as a cat is the best.",
-          coverImage: "https://res.cloudinary.com/demo/image/upload/w_600,h_400,c_fill/sun_nap.jpg",
+          coverImage: "https://images.unsplash.com/photo-1508214751199-0c6c3f3c4f5a?ixlib=rb-4.0.3&auto=format&fit=crop&w=600&q=80",
+        },
+      ],
+      patricia: [
+        {
+          title: "Morning hike",
+          content: "Enjoyed a refreshing hike in the hills!",
+          coverImage: "https://images.unsplash.com/photo-1500530855697-b586d89ba3ee?ixlib=rb-4.0.3&auto=format&fit=crop&w=600&q=80",
+        },
+        {
+          title: "Coffee time",
+          content: "Trying a new coffee blend today, amazing aroma!",
+          coverImage: "https://images.unsplash.com/photo-1511920170033-f8396924c348?ixlib=rb-4.0.3&auto=format&fit=crop&w=600&q=80",
+        },
+        {
+          title: "Nature photography",
+          content: "Captured some beautiful landscapes this afternoon.",
+          coverImage: "https://images.unsplash.com/photo-1506744038136-46273834b3fb?ixlib=rb-4.0.3&auto=format&fit=crop&w=600&q=80",
+        },
+      ],
+      rafaela: [
+        {
+          title: "Book recommendation",
+          content: "Just finished an amazing novel, highly recommend it!",
+          coverImage: "https://images.unsplash.com/photo-1512820790803-83ca734da794?ixlib=rb-4.0.3&auto=format&fit=crop&w=600&q=80",
+        },
+        {
+          title: "Writing thoughts",
+          content: "Spent the day writing in my journal, very therapeutic.",
+          coverImage: "https://images.unsplash.com/photo-1496104679561-38b4c103f5d7?ixlib=rb-4.0.3&auto=format&fit=crop&w=600&q=80",
+        },
+        {
+          title: "Library afternoon",
+          content: "Quiet afternoon at the library, love the peace here.",
+          coverImage: "https://images.unsplash.com/photo-1532012197267-da84d127e765?ixlib=rb-4.0.3&auto=format&fit=crop&w=600&q=80",
         },
       ],
     };
@@ -128,17 +181,41 @@ async function seed() {
               commentText =
                 commenter.username === "andrea"
                   ? "Glad you enjoyed it!"
-                  : "Meow! 😸";
+                  : commenter.username === "medusa"
+                  ? "Meow! 😸"
+                  : "Sounds lovely!";
             } else if (user.username === "andrea") {
               commentText =
                 commenter.username === "hugo"
                   ? "You deserve recognition!"
-                  : "Purring along! 😻";
+                  : commenter.username === "medusa"
+                  ? "Purring along! 😻"
+                  : "Amazing post!";
             } else if (user.username === "medusa") {
               commentText =
                 commenter.username === "hugo"
                   ? "I will wait patiently! 😼"
-                  : "Petting accepted! 😽";
+                  : commenter.username === "andrea"
+                  ? "Petting accepted! 😽"
+                  : "So cute!";
+            } else if (user.username === "patricia") {
+              commentText =
+                commenter.username === "hugo"
+                  ? "Looks like a great hike!"
+                  : commenter.username === "andrea"
+                  ? "Beautiful scenery!"
+                  : commenter.username === "medusa"
+                  ? "Meow inspiration! 😺"
+                  : "I want to join!";
+            } else if (user.username === "rafaela") {
+              commentText =
+                commenter.username === "hugo"
+                  ? "Nice book choice!"
+                  : commenter.username === "andrea"
+                  ? "Love your writing!"
+                  : commenter.username === "medusa"
+                  ? "Purrfect! 😻"
+                  : "Interesting read!";
             }
 
             await prisma.comment.create({
@@ -153,7 +230,7 @@ async function seed() {
       }
     }
 
-    console.log("Database seeded with fixed Cloudinary images!");
+    console.log("Database seeded with fixed Cloudinary images and new users Patricia and Rafaela!");
   } catch (error) {
     console.error(error);
   } finally {
