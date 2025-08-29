@@ -238,6 +238,44 @@ export async function likePost(req, res, next) {
     }
 }
 
+// Save a Post
+export async function savePost(req, res, next) {
+    const { id: postId } = req.params
+    // console.log("req.user:", req.user);
+    const { userId } = req.user
+
+    try {
+        const post = await prisma.post.findUnique({
+            where: { id: Number(postId) }
+        })
+
+        if (!post) return next({ status: 404, message: "Post not found", code: "NOT_FOUND" })
+
+        const existingSave = await prisma.savedPost.findFirst({
+            where: {
+                userId: Number(userId),
+                postId: Number(postId)
+            }
+        });
+
+        if (existingSave) {
+            await prisma.savedPost.delete({ where: { id: existingSave.id } });
+            return res.status(200).json({ message: "Save removed" });
+        } else {
+            // if there is no save, add
+            await prisma.savedPost.create({
+                data: {
+                    userId: Number(userId),
+                    postId: Number(postId)
+                }
+            });
+            return res.status(200).json({ message: "Post saved" });
+        }
+    } catch (error) {
+        next(error)
+    }
+}
+
 export async function searchPosts(req, res, next) {
     const { q } = req.query;
 
