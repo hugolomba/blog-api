@@ -124,18 +124,21 @@ export async function deleteComment(req, res, next) {
 // Like a comment
 export async function likeComment(req, res, next) {
     const { id: commentId } = req.params
-    const { userId } = req.body
+    const { userId } = req.user
 
     try {
         const comment = await prisma.comment.findUnique({
             where: { id: Number(commentId) }
         })
 
+        console.log("Liking comment:", commentId, userId);
+
         if (!comment) return next({ status: 404, message: "Comment not found", code: "NOT_FOUND" })
 
         const like = await prisma.like.create({
             data: {
                 userId: Number(userId),
+                
                 commentId: Number(commentId)
             }
         })

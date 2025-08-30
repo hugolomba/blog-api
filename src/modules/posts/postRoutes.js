@@ -1,5 +1,5 @@
 import { Router } from "express";
-import { createPost, getAllPosts, getAllPublishedPosts, editPost, deletePost, getPostById, likePost, getAllCurrentUserPosts, searchPosts, savePost } from "./postControllers.js"
+import { createPost, getAllPosts, getAllPublishedPosts, editPost, deletePost, getPostById, likePost, getAllCurrentUserPosts, searchPosts, savePost, getCommentsByPost } from "./postControllers.js"
 import { validateAndSanitize } from "../../middlewares/validateAndSanitize.js";
 import { createPostSchema, editPostSchema } from "../../config/joiSchemas.js";
 import { authMiddleware } from "../../middlewares/authMiddleware.js";
@@ -35,7 +35,12 @@ postRoutes.post("/:id/save", authMiddleware, savePost);
 // Search posts
 postRoutes.get("/search", searchPosts);
 
+//find all comments by post
+postRoutes.get("/:id/comments", getCommentsByPost)
+
 // Find a post
-postRoutes.get("/:id", authMiddleware, getPostById)
+postRoutes.get("/:id", getPostById)
+
+
 
 export default postRoutes;

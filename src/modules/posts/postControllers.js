@@ -119,7 +119,7 @@ export async function getPostById(req, res, next) {
 
     try {
         const post = await prisma.post.findUnique({
-            where: { id: Number(id) },
+            where: { id: Number(id), published: true },
             include: {
                 author: true,
                 comments: {
@@ -303,6 +303,26 @@ export async function searchPosts(req, res, next) {
         });
 
         res.status(200).json(posts);
+    } catch (error) {
+        next(error);
+    }
+}
+
+// get all comments by post
+export async function getCommentsByPost(req, res, next) {
+    const { id: postId } = req.params;
+
+    try {
+        const comments = await prisma.comment.findMany({
+            where: { postId: Number(postId) },
+            include: {
+                author: true,
+                post: true,
+                likes: true
+            }
+        });
+
+        res.status(200).json(comments);
     } catch (error) {
         next(error);
     }
