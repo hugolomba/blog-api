@@ -1,4 +1,5 @@
 import prisma from "../../config/prisma.js";
+import cloudinary from "../../config/cloudinary.js";
 
 const response = (success, data, message, error) => {
     return {
@@ -10,12 +11,25 @@ const response = (success, data, message, error) => {
 }
 
 export async function createPost(req, res, next) {  
-    const { title, content, coverImage, authorId } = req.body
+    console.log("to create post >>>>>", req.body);
+    const { title, content, published } = req.body
+    let { authorId, coverImage } = req.body
 
     try {
+
+        if (req.file) {
+            const uploadResult = await cloudinary.uploader.upload(req.file.path, {
+                folder: "posts/coverImages",
+                transformation: [{ width: 800, height: 600, crop: "limit" }]
+            });
+            coverImage = uploadResult.secure_url
+                }
+                
         const newPost = await prisma.post.create({
-            data: {title, content, coverImage, authorId}
+            data: {title, content, coverImage, authorId: Number(authorId), published: true}
         })
+
+        console.log(newPost);
 
         res.status(200).json("New post created")
 

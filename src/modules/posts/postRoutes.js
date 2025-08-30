@@ -4,12 +4,13 @@ import { validateAndSanitize } from "../../middlewares/validateAndSanitize.js";
 import { createPostSchema, editPostSchema } from "../../config/joiSchemas.js";
 import { authMiddleware } from "../../middlewares/authMiddleware.js";
 import { isAdmin } from "../../middlewares/isAdmin.js";
+import upload from "../../config/multer.js";
 
 const postRoutes = Router();
 
 
 // Create a post
-postRoutes.post("/", authMiddleware, validateAndSanitize(createPostSchema), createPost)
+postRoutes.post("/", authMiddleware, validateAndSanitize(createPostSchema), upload.single("coverImage"), createPost)
 
 // Get all posts
 postRoutes.get("/all", authMiddleware, isAdmin, getAllPosts)

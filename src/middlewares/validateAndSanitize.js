@@ -8,7 +8,7 @@ export const validateAndSanitize = (schema) => {
   return (req, res, next) => {
     // validation with Joi
     const { error, value } = schema.validate(req.body, { abortEarly: false, stripUnknown: true });
-    console.log("value >>>>>", value);
+    console.log("to sanitize value >>>>>", value);
     if (error) {
       return res.status(400).json({
         success: false,
