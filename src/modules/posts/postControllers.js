@@ -11,7 +11,6 @@ const response = (success, data, message, error) => {
 }
 
 export async function createPost(req, res, next) {  
-    console.log("to create post >>>>>", req.body);
     const { title, content, published } = req.body
     let { authorId, coverImage } = req.body
 
@@ -24,14 +23,13 @@ export async function createPost(req, res, next) {
             });
             coverImage = uploadResult.secure_url
                 }
-                
+
         const newPost = await prisma.post.create({
             data: {title, content, coverImage, authorId: Number(authorId), published: true}
         })
 
-        console.log(newPost);
 
-        res.status(200).json("New post created")
+        res.status(200).json(newPost)
 
 
     } catch (error) {
@@ -158,43 +156,41 @@ export async function getPostById(req, res, next) {
 
 // Edit a Post
 export async function editPost(req, res, next) {
-    const id  = req.params.id;
-    const { title, content, coverImage, published } = req.body;
+  const id = req.params.id;
+  const { title, content, published, removeImage } = req.body;
+  let { coverImage } = req.body;
+  try {
+    const existingPost = await prisma.post.findUnique({
+      where: { id: Number(id) }
+    });
 
-    try {
-
-        const existingPost = await prisma.post.findUnique({
-            where: { id: Number(id) }
-        });
-
-        if (!existingPost) {
-            return res.status(404).json(response(false, {}, "Post not found", null));
-        }
-
-        const dataToUpdate = {};
-        const fields = { title, content, coverImage, published };
-
-        for (const key in fields) {
-            if (fields[key] !== undefined && fields[key] !== existingPost[key]) {
-                dataToUpdate[key] = fields[key];
-            }
-        }
-
-        if (Object.keys(dataToUpdate).length === 0) {
-            return res.status(200).json(response(true, {}, "No fields were updated", null));
-        }
-
-        const updatedPost = await prisma.post.update({
-            where: { id: Number(id) },
-            data:   dataToUpdate
-        });
-
-        const updatedFieldsNames = Object.keys(dataToUpdate).join(", ");
-
-        res.status(200).json(updatedPost);
-    } catch (error) {
-        next(error);
+    if (!existingPost) {
+      return res.status(404).json(response(false, {}, "Post not found", null));
     }
+
+    if (req.file) {
+      const uploadResult = await cloudinary.uploader.upload(req.file.path, {
+        folder: "posts/coverImages",
+        transformation: [{ width: 800, height: 600, crop: "limit" }]
+      });
+      coverImage = uploadResult.secure_url;
+    }
+
+    // if (removeImage === "true") {
+    //   coverImage = null;
+    // }
+
+  
+    const updatedPost = await prisma.post.update({
+      where: { id: Number(id) },
+      data: { title, content, coverImage, published: published === undefined ? existingPost.published : published }
+    });
+
+
+    res.status(200).json(updatedPost);
+  } catch (error) {
+    next(error);
+  }
 }
 
 // Delete a Post
@@ -217,8 +213,6 @@ export async function deletePost(req, res, next) {
 // Like a Post
 export async function likePost(req, res, next) {
     const { id: postId } = req.params
-    // console.log("req.user:", req.user);
-    const { userId } = req.user
 
     try {
         const post = await prisma.post.findUnique({
@@ -255,7 +249,6 @@ export async function likePost(req, res, next) {
 // Save a Post
 export async function savePost(req, res, next) {
     const { id: postId } = req.params
-    // console.log("req.user:", req.user);
     const { userId } = req.user
 
     try {

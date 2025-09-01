@@ -131,8 +131,6 @@ export async function likeComment(req, res, next) {
             where: { id: Number(commentId) }
         })
 
-        console.log("Liking comment:", commentId, userId);
-
         if (!comment) return next({ status: 404, message: "Comment not found", code: "NOT_FOUND" })
 
         const like = await prisma.like.create({

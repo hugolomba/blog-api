@@ -22,10 +22,10 @@ postRoutes.get("/me", authMiddleware, getAllCurrentUserPosts)
 postRoutes.get("/published", getAllPublishedPosts)
 
 // Edit a post
-postRoutes.put("/edit", authMiddleware, validateAndSanitize(editPostSchema), editPost);
+postRoutes.put("/:id", authMiddleware, upload.single("coverImage"), editPost);
 
 // Delete a post
-postRoutes.delete("/delete", authMiddleware, deletePost)
+postRoutes.delete("/:id", authMiddleware, deletePost)
 
 // Like a post
 postRoutes.post("/:id/like", authMiddleware, likePost);

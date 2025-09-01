@@ -15,7 +15,7 @@ const response = (success, data, message, error) => {
 }
 
 export async function register (req, res, next) {
-    let { name, username, email, password, bio, avatarImage } = req.body
+    let { name, surname, username, email, password, bio, avatarImage } = req.body
 
     try {
         const existingEmail = await prisma.user.findUnique({
@@ -46,7 +46,7 @@ export async function register (req, res, next) {
         }
 
         const user = await prisma.user.create({
-        data: {name, username, email, password: hashedPassword, bio, avatarImage}
+        data: {name, surname, username, email, password: hashedPassword, bio, avatarImage}
     })
     res.status(201).json(user)
     } catch (error) {

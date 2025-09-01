@@ -42,12 +42,12 @@ export async function getAllUsers(req, res, next) {
 export async function getCurrentUser(req, res, next) {
     try {
         const userId = req.user.userId;
-        console.log(">>>>>>>>", req.user);
           const user = await prisma.user.findUnique({
             where: { id: userId },
             select: {
                 id: true,
                 name: true,
+                surname: true,
                 username: true,
                 email: true,
                 bio: true,
@@ -74,21 +74,61 @@ export async function getUserById(req, res, next) {
 
     try {
         const user = await prisma.user.findUnique({
-            where: { id: Number(id) },
-            select: {
-            name: true,
-            bio: true,
-            avatarImage: true,
-             posts: {
-            where: { published: true }
-        },
-            comments: true,
+      where: { id: Number(id) },
+      select: {
+        id: true,
+        name: true,
+        surname: true,
+        username: true,
+        email: true,
+        bio: true,
+        avatarImage: true,
+        isAdmin: true,
+        posts: {
+          include: {
+            comments: {
+              select: {
+                id: true,
+                content: true,
+                authorId: true,
+                createdAt: true
+              }
+            },
             likes: true,
-            followers: true,
-            following: true,
-            savedPosts: true
+            categories: true,
+            savedBy: true
+          }
+        },
+        comments: {
+          include: {
+            post: {
+              include: {
+                author: true,
+                likes: true,
+                comments: true,
+                categories: true,
+                savedBy: true
+              }
+            }
+          }
+        },
+        likes: true,
+        followers: true,
+        following: true,
+        savedPosts: {
+          include: {
+            post: {
+              include: {
+                author: true,
+                likes: true,
+                comments: true,
+                categories: true
+              }
+            }
+          }
+        }
       }
-        })
+    });
 
          if (!user) {
       return next({ status: 404, message: "User not found", code: "NOT_FOUND" });
@@ -103,9 +143,7 @@ export async function getUserById(req, res, next) {
 // Edit a User (user cannot change the password here)
 export async function editUser(req, res, next) {
     const id = req.user.userId;
-    let { name, username, email, bio, avatarImage } = req.body;
-
-    console.log("before>>>>>>", id);
+    let { name, surname, username, email, bio, avatarImage } = req.body;
 
     try {
     
@@ -124,7 +162,7 @@ export async function editUser(req, res, next) {
         }
         
         const dataToUpdate = {};
-        let fields = { name, username, email, bio, avatarImage };
+        let fields = { name, surname, username, email, bio, avatarImage };
 
         //  let avatarUrl 
 
@@ -137,7 +175,7 @@ export async function editUser(req, res, next) {
         }
 
         if (Object.keys(dataToUpdate).length === 0) {
-            return res.status(200).json(response(true, {}, "No fields were updated", null));
+            return res.status(200).json(existingUser);
             
         }   
 
@@ -151,10 +189,11 @@ export async function editUser(req, res, next) {
 
         const updatedFieldsNames = Object.keys(dataToUpdate).join(", ");
 
-        res.status(200).json(response(true, updatedUser, `User updated successfully: ${updatedFieldsNames}`, null));
+        res.status(200).json(updatedUser);
 
     } catch (error) {
         next(error);
+
     }
 }
 
@@ -164,7 +203,6 @@ export async function changePassword(req, res, next) {
     const { currentPassword, newPassword } = req.body
     const userId = req.user.userId;
 
-    console.log("USER ID >>>>>>>>", userId);
 
 try {
         const currentUser = await prisma.user.findUnique({
