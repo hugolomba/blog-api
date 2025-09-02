@@ -16,6 +16,7 @@ const response = (success, data, message, error) => {
 
 export async function register (req, res, next) {
     let { name, surname, username, email, password, bio, avatarImage } = req.body
+    console.log("Request Body backend:", req.body)
 
     try {
         const existingEmail = await prisma.user.findUnique({

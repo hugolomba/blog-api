@@ -144,6 +144,7 @@ export async function getUserById(req, res, next) {
 export async function editUser(req, res, next) {
     const id = req.user.userId;
     let { name, surname, username, email, bio, avatarImage } = req.body;
+    console.log("heeeeeeeetfetretfeeugeveb ");
 
     try {
     

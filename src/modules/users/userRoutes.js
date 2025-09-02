@@ -22,9 +22,9 @@ userRoutes.get("/me", authMiddleware, getCurrentUser);
 
 // Change password
 userRoutes.put("/change-password", validateAndSanitize(updatePasswordSchema), authMiddleware, changePassword);
-
+ 
 // Edit user
-userRoutes.put("/edit/:id", upload.single("avatarImage"), validateAndSanitize(updateProfileSchema), authMiddleware, editUser);
+userRoutes.put("/edit/:id", authMiddleware, upload.single("avatarImage"), validateAndSanitize(updateProfileSchema), editUser);
 
 // Delete a user
 userRoutes.delete("/delete", authMiddleware, deleteUser)

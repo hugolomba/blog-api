@@ -142,7 +142,7 @@ const postsContent = {
         <p>We shared snacks, laughed at funny scenes, and discussed our favorite parts. It wasn’t just about the movies—it was about connecting, reminiscing, and creating shared memories.</p>
         <p>These small traditions, though simple, are the threads that weave together the fabric of relationships.</p>
       `,
-      coverImage: "https://images.unsplash.com/photo-1602021156377-1c64ed81b9b7?auto=format&fit=crop&w=600&q=80",
+      coverImage: "https://images.unsplash.com/photo-1585647347483-22b66260dfff?q=80&w=1740&auto=format&fit=crop&ixlib=rb-4.1.0&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D",
     },
   ],
   medusa: [
@@ -170,7 +170,7 @@ const postsContent = {
         <p>Basking in the afternoon sun, I felt the warmth seep into my fur, relaxing every muscle.</p>
         <p>The gentle sway of the trees outside created a natural lullaby, perfect for a nap. Life as a cat is full of these serene interludes, moments where nothing else matters but comfort and peace.</p>
       `,
-      coverImage: "https://images.unsplash.com/photo-1606851090474-2e329e75e34e?auto=format&fit=crop&w=600&q=80",
+      coverImage: "https://images.unsplash.com/photo-1549317909-68b039b635e7?q=80&w=1480&auto=format&fit=crop&ixlib=rb-4.1.0&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D",
     },
   ],
   patricia: [
@@ -200,7 +200,7 @@ const postsContent = {
         </ul>
         <p>Sharing slices with butter and homemade jam made me realize how <em>small acts of creation can nourish not just the body, but also the soul</em>.</p>
       `,
-      coverImage: "https://images.unsplash.com/photo-1608198093002-ad4e005484f9?auto=format&fit=crop&w=600&q=80",
+      coverImage: "https://images.unsplash.com/photo-1562099870-a3c3f2f3b44d?q=80&w=774&auto=format&fit=crop&ixlib=rb-4.1.0&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D",
     },
     {
       title: "An evening of stargazing",
@@ -208,7 +208,7 @@ const postsContent = {
         <p>Last night, I spread a blanket in the backyard and spent hours stargazing. The sky was so clear that I could see constellations I hadn’t noticed before.</p>
         <p>Armed with a small telescope and a notebook, I traced the outlines of Orion, Cassiopeia, and even spotted a shooting star. Each point of light felt like a <strong>whisper from the universe</strong>, reminding us how vast everything is.</p>
       `,
-      coverImage: "https://images.unsplash.com/photo-1474511014065-42dcd2f0aa71?auto=format&fit=crop&w=600&q=80",
+      coverImage: "https://images.unsplash.com/photo-1527871899604-f1425bcce779?q=80&w=1740&auto=format&fit=crop&ixlib=rb-4.1.0&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D",
     },
   ],
   rafaela: [
