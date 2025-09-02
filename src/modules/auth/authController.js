@@ -49,6 +49,8 @@ export async function register (req, res, next) {
         const user = await prisma.user.create({
         data: {name, surname, username, email, password: hashedPassword, bio, avatarImage}
     })
+
+    console.log("User created:", user)
     res.status(201).json(user)
     } catch (error) {
         next(error)
@@ -58,6 +60,8 @@ export async function register (req, res, next) {
 export async function login (req, res, next) { 
    
     let { username, password } = req.body
+
+    console.log("Login attempt:", req.body)
 
     try {
         const user = await prisma.user.findUnique({
@@ -71,12 +75,16 @@ export async function login (req, res, next) {
                 savedPosts: true
             }
         });
-        
+
+        console.log("User found:", user);
+
          if (!user) {
       return res.status(401).json({ success: false, message: "Invalid username or password" });
     }
 
      const isPasswordValid = await bcrypt.compare(password, user.password);
+
+     console.log("Password valid:", isPasswordValid);
    
     if (!isPasswordValid) {
       return res.status(401).json({ success: false, message: "Invalid username or password" });
