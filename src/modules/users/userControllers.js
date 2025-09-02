@@ -204,29 +204,28 @@ export async function changePassword(req, res, next) {
     const { currentPassword, newPassword } = req.body
     const userId = req.user.userId;
 
+    console.log("Request Body backend:", req.body);
+
 
 try {
         const currentUser = await prisma.user.findUnique({
         where: { id: userId }
          })
         const isCurrentPasswordValid = await bcrypt.compare(currentPassword, currentUser.password);
+        console.log("Is current password valid:", isCurrentPasswordValid);
         if (isCurrentPasswordValid) {
             const hashedNewPassword = await bcrypt.hash(newPassword, 10);
-            await prisma.user.update({
+            const updatedUser = await prisma.user.update({
                 where: { id: userId },
                 data: { password: hashedNewPassword }
             })
+            res.status(200).json("Password updated successfully")
+        } else {
+            res.status(400).json("Current password is incorrect")
         }
-        
-        res.status(200).json("Password changed successfully")
-    
-} catch (error) {
-    next(error)
-}
-
-
-
-
+    } catch (error) {
+        next(error)
+    }
 
 }
 

@@ -26,6 +26,9 @@ userRoutes.put("/change-password", validateAndSanitize(updatePasswordSchema), au
 // Edit user
 userRoutes.put("/edit/:id", authMiddleware, upload.single("avatarImage"), validateAndSanitize(updateProfileSchema), editUser);
 
+// Change Password
+userRoutes.put("/change-password", validateAndSanitize(updatePasswordSchema), authMiddleware, changePassword);
+
 // Delete a user
 userRoutes.delete("/delete", authMiddleware, deleteUser)
 
