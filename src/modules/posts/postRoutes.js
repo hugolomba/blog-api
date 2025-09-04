@@ -8,7 +8,7 @@ import upload from "../../config/multer.js";
 
 const postRoutes = Router();
 
-
+ 
 // Create a post
 postRoutes.post("/", authMiddleware, validateAndSanitize(createPostSchema), upload.single("coverImage"), createPost)
 
@@ -20,7 +20,6 @@ postRoutes.get("/me", authMiddleware, getAllCurrentUserPosts)
 
 // Get all PUBLISHED posts
 postRoutes.get("/published", getAllPublishedPosts)
-
 // Edit a post
 postRoutes.put("/:id", authMiddleware, upload.single("coverImage"), editPost);
 
