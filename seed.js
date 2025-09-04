@@ -24,7 +24,7 @@ const usersData = [
     email: "hugo@example.com",
     password: passwordHash,
     isAdmin: true,
-    avatarImage: "https://images.unsplash.com/photo-1508214751196-bcfd4ca60f91?ixlib=rb-4.0.3&auto=format&fit=crop&w=200&q=80",
+    avatarImage: "https://res.cloudinary.com/dck0d5qwp/image/upload/v1756982340/hugo_xicqar.png",
     bio: "Passionate about technology and blogging."
   },
   {
@@ -33,7 +33,7 @@ const usersData = [
     username: "andrea",
     email: "andrea@example.com",
     password: passwordHash,
-    avatarImage: "https://images.unsplash.com/photo-1544005313-94ddf0286df2?ixlib=rb-4.0.3&auto=format&fit=crop&w=200&q=80",
+    avatarImage: "https://res.cloudinary.com/dck0d5qwp/image/upload/v1756982340/andrea_m4z2tx.png",
     bio: "Loves cats, coffee, and sharing moments."
   },
   {
@@ -42,7 +42,7 @@ const usersData = [
     username: "medusa",
     email: "medusa@example.com",
     password: passwordHash,
-    avatarImage: "https://images.unsplash.com/photo-1531123897727-8f129e1688ce?ixlib=rb-4.0.3&auto=format&fit=crop&w=200&q=80",
+    avatarImage: "https://res.cloudinary.com/dck0d5qwp/image/upload/v1756982340/medusa_oziz8c.png",
     bio: "Curious cat who loves naps and treats."
   },
   {
@@ -51,7 +51,7 @@ const usersData = [
     username: "patricia",
     email: "patricia@example.com",
     password: passwordHash,
-    avatarImage: "https://images.unsplash.com/photo-1524504388940-b1c1722653e1?ixlib=rb-4.0.3&auto=format&fit=crop&w=200&q=80",
+    avatarImage: "https://res.cloudinary.com/dck0d5qwp/image/upload/v1756982340/patricia_jcwij6.png",
     bio: "Nature lover and coffee enthusiast."
   },
   {
@@ -60,7 +60,7 @@ const usersData = [
     username: "rafaela",
     email: "rafaela@example.com",
     password: passwordHash,
-    avatarImage: "https://images.unsplash.com/photo-1529626455594-4ff0802cfb7e?ixlib=rb-4.0.3&auto=format&fit=crop&w=200&q=80",
+    avatarImage: "https://res.cloudinary.com/dck0d5qwp/image/upload/v1756982340/rafaela_tqf6y5.png",
     bio: "Bookworm and aspiring writer."
   },
 ];
