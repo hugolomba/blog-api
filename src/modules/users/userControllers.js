@@ -232,16 +232,53 @@ try {
 // Delete a User
 export async function deleteUser(req, res, next) {
     const id  = req.user.userId;
+    const password = req.body.password;
+
+    console.log("Request Body:", req.user);
     try {
 
-     const deletedUser = await prisma.user.delete({
-        where: { id: Number(id)}
-     })   
+    const currentUser = await prisma.user.findUnique({
+        where: { id: id }
+         })
+        const isPasswordValid = await bcrypt.compare(password, currentUser.password);
+         console.log("Is current password valid:", isPasswordValid);
+        if (!isPasswordValid) {
+            return res.status(400).json("Current password is incorrect");
+        }
+        const deletedUser = await prisma.user.delete({
+            where: { id: Number(id) }
+        })
 
-     res.status(200).json(response(true, deletedUser, `User ${deletedUser.username} deleted`, null))
+     res.status(200).json(deletedUser, `User ${deletedUser.username} deleted`)
     
         
     } catch (error) {
         next(error)
+    }
+}
+
+// Search for a user
+export async function searchUsers(req, res, next) {
+    const { q } = req.query;
+
+    try {
+        const users = await prisma.user.findMany({
+            where: {
+                OR: [
+                    { name: { contains: q, mode: "insensitive" } },
+                    { email: { contains: q, mode: "insensitive" } },
+                    { username: { contains: q, mode: "insensitive" } }
+                ]
+            },
+            include: {
+                posts: true,
+                comments: true
+            }
+        });
+
+          console.log(users);
+        res.status(200).json(users);
+    } catch (error) {
+        next(error);
     }
 }

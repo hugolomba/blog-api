@@ -1,5 +1,5 @@
 import { Router } from "express";
-import { deleteUser, editUser, getAllUsers, getCurrentUser, getUserById, changePassword } from "./userControllers.js";
+import { deleteUser, editUser, getAllUsers, getCurrentUser, getUserById, changePassword, searchUsers } from "./userControllers.js";
 import upload from "../../config/multer.js";
 import { validateAndSanitize } from "../../middlewares/validateAndSanitize.js";
 import { updateProfileSchema, updatePasswordSchema } from "../../config/joiSchemas.js";
@@ -31,6 +31,9 @@ userRoutes.put("/change-password", validateAndSanitize(updatePasswordSchema), au
 
 // Delete a user
 userRoutes.delete("/delete", authMiddleware, deleteUser)
+
+// Search for users
+userRoutes.get("/search", searchUsers);
 
 // Find a user (public profile)
 userRoutes.get("/:id", getUserById)

@@ -33,7 +33,7 @@ model Post {
   content     String
   coverImage  String?
   published   Boolean      @default(false)
-  author      User         @relation(fields: [authorId], references: [id])
+  author      User         @relation(fields: [authorId], references: [id], onDelete: Cascade)
   authorId    Int
   comments    Comment[]
   likes       Like[]
@@ -46,7 +46,7 @@ model Post {
 model Comment {
   id        Int      @id @default(autoincrement())
   content   String
-  author    User     @relation(fields: [authorId], references: [id])
+  author    User     @relation(fields: [authorId], references: [id], onDelete: Cascade)
   authorId  Int
   post      Post     @relation(fields: [postId], references: [id], onDelete: Cascade)
   postId    Int
@@ -62,7 +62,7 @@ model Category {
 
 model Like {
   id        Int       @id @default(autoincrement())
-  user      User      @relation(fields: [userId], references: [id])
+  user      User      @relation(fields: [userId], references: [id], onDelete: Cascade)
   userId    Int
   post      Post?     @relation(fields: [postId], references: [id])
   postId    Int?
@@ -82,7 +82,7 @@ model Follower {
 
 model SavedPost {
   id        Int     @id @default(autoincrement())
-  user      User    @relation(fields: [userId], references: [id])
+  user      User    @relation(fields: [userId], references: [id], onDelete: Cascade)
   userId    Int
   post      Post    @relation(fields: [postId], references: [id])
   postId    Int
